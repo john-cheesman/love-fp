@@ -17,7 +17,7 @@ end
 
 function M.getMap(mapName, maps)
     if #maps > 0 then
-        return head(filter(function (x) return x.name == mapName end, maps))
+        return nth(1, filter(function (x) return x.name == mapName end, maps))
     end
 
     return nil
