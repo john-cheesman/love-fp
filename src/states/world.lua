@@ -15,7 +15,7 @@ local player = Person:new({
     speed = 50
 })
 
-local level, world
+local level, levelMap, world
 
 local function handleCollision(cols)
     each(function(col)
@@ -32,6 +32,7 @@ function M:enter(previous, levelName)
     level = levelName
     world = bump.newWorld(32)
     maps = map.loadMap(level, maps, world)
+    levelMap = map.getMap(level, maps).map
     world:add(player, model.playerPosition.x, model.playerPosition.y, 32, 32)
 end
 
@@ -44,7 +45,7 @@ function M:update(dt)
         handleCollision(cols)
     end
 
-    map.getMap(level, maps).map:update(dt)
+    levelMap:update(dt)
 
     model = Game:new({
         playerPosition = vector(actualX, actualY)
@@ -52,7 +53,7 @@ function M:update(dt)
 end
 
 function M:draw()
-    map.getMap(level, maps).map:draw(0,0)
+    levelMap:draw(0,0)
     love.graphics.rectangle('line', model.playerPosition.x, model.playerPosition.y, 32, 32)
 end
 
